@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>FORUM ADMIN PENJUAL</title>
+</head>
+
+<body>
+    <main id="isip">
+        
+    </main>
+    <footer class="text-center py-3 vh-20">
+        <p>&copy; 2023 - Teh Diska &bull; Created by Diska Romandoni</p>
+    </footer>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                type:'GET',
+                url:'/tampilp',
+                data:{},
+                success:function(response){
+                    var isi = response['semuap'];
+                    for (let i = 0; i < isi.length; i++) {
+                        let num = isi[i]['nomor'];
+                        let pesan= isi[i]['pesan'];
+                        let original = isi[i]['original'];
+                        let strawberry = isi[i]['strawberry'];
+                        let temp=`<div class="status">
+            <h1 class="fw-light mt-3 mb-3">update pesan dan status produk ke site pelanggan</h1>
+            <form>
+                <div class="form-floating m-2">
+                    <textarea class="form-control" placeholder="ketik pesan ke site pelanggan" id="pesantext"
+                        style="height: 200px"></textarea>
+                    <label id="pesan-pelanggan" style="height:100%;" for="pesantext">pesan ke site
+                        pelanggan</label>
+                    <h3>pesan kepada pelanggan yang telah dikirim:</h3>
+                    <div class="isipesan bg-danger p-2">
+                        <h4 class="text-white" id='pesanp' >${pesan}</h4>
+                    </div>
+                </div>
+                <div class="kanankiri kk2 mt-4 ">
+                    <div class="kiri2 mt-2 mb-2 bungkuspilih  ${original === 'habis' ? 'bg-danger text-white' : ''}">
+                        <div class="bungkus">
+                            <img src="{{ url_for('static',filename='original.jpg') }}">
+                        </div>
+                        <h3>original</h3>
+                        <p><b>${original}</b></p>
+                        <select id="original" class="form-select" aria-label="size 2 select">
+                            <option selected class='bg-danger text-white'>${original}</option>
+                            <option value="tersedia">tersedia</option>
+                            <option value="habis">habis</option>
+                        </select>
+
+                    </div>
+                    <div class="kanan2 mt-2 mb-2 bungkuspilih  ${strawberry === 'habis' ? 'bg-danger text-white' : ''}">
+                        <div class="bungkus">
+                            <img src="{{ url_for('static',filename='strawberry.jpg') }}">
+                        </div>
+
+                        <h3>strawberry</h3>
+                        <p><b>${strawberry}</b></p>
+                        <select id="strawberry" class="form-select" aria-label="size 2 select">
+                            <option selected class='bg-danger text-white'>${strawberry}</option>
+                            <option value="tersedia">tersedia</option>
+                            <option value="habis">habis</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="text-center mb-3 pemberitahuan "><button type="button" onclick='pemberitahuan(${num})' class="btn btn-lg btn-primary">kirim
+                        pemberitahuan</button></p>
+                <p class="text-center mb-3 pemberitahuan "><a href="{{ url_for('home') }}"><button type="button"
+                            class="btn btn-lg btn-secondary">ke
+                            halaman awal</button></a></p>
+
+            </form>
+        </div>`;
+                $("#isip").append(temp);
+                    }
+                }
+            })
+        });
+        function pemberitahuan(num){
+            event.preventDefault();
+            var pesan=$("#pesantext").val();
+            var original=$("#original").val();
+            var strawberry=$("#strawberry").val();
+            $.ajax({
+                type:"POST",
+                url:"/ubah",
+                data:{knomor:num,kpesan:pesan,koriginal:original,kstrawberry:strawberry},
+                success:function(response){
+                    alert(response['pesan']);
+                    window.location.reload();
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

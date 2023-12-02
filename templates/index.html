@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>FORUM ADMIN PENJUAL</title>
+
+
+</head>
+
+<body>
+    <main>
+        <h1 class="fw-light" id="mobileh1">FORUM ADMIN PENJUALAN</h1>
+
+        <!---->
+        <!---->
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <button id="mobilebut" type="button" onclick="muat()" class="btn btn-lg btn-primary">muat ulang pesanan</button>
+                    <a href="{{ url_for('pemberitahuan') }}"><button type="button"class="btn btn-lg btn-secondary" id="mobilebut">ke halaman pemberitahuan</button></a>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="daftar">
+
+                </div>
+            </div>
+
+    </main>
+    <footer class="text-center py-3 vh-20">
+        <p>&copy; 2023 - Teh Diska &bull; Created by Diska Romandoni</p>
+    </footer>
+
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/tampil",
+                success: function (response) {
+                    var isi = response['semua'];
+                    for (let i = 0; i < isi.length; i++) {
+                        let num = isi[i]['num'];
+                        let nama = isi[i]['nama'];
+                        let nohp = isi[i]['nohp'];
+                        let request = isi[i]['request'];
+                        let original = isi[i]['original'];
+                        let strawberry = isi[i]['strawberry'];
+                        let total = isi[i]['total_bayar'];
+                        let status = isi[i]['status'];
+                        let row = '';
+                        if (status === 'belum') {
+                            let row = `<div class="col m-2" id="muatan">
+                        <div class="card shadow-sm" id="muatan">
+                            <div class="kanankiri">
+                                <div class="kiri mt-2">
+                                    <img src="{{ url_for('static',filename='original.jpg') }}">
+                                    <p>jumlah = ${original}  buah<p>
+                                </div>
+                                <div class="kanan mt-2">
+                                    <img src="{{ url_for('static',filename='strawberry.jpg') }}">
+                                    <p>jumlah = ${strawberry}  buah</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">nama: ${nama}</p>
+                                <p class="card-text">no hp: ${nohp}</p>
+                                <p class="card-text">request: ${request}</p>
+                                <p class="card-text">total harga: Rp.${total}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" onclick="selesai(${num})" class="btn btn-sm btn-primary">konfirmasi pesanan selesai</button>
+                                        <button type="button" onclick="hapus(${num})" class="btn btn-sm btn-danger">hapus pesanan</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                            $("#daftar").append(row);
+                        } else if (status === 'selesai') {
+                            let roww = `<div class="col m-2" id="muatan">
+                        <div class="card shadow-sm bg-dark text-white" id="muatan">
+                            <div class="kanankiri">
+                                <div class="kiri mt-2">
+                                    <img src="{{ url_for('static',filename='original.jpg') }}">
+                                    <p>jumlah = ${original}  buah<p>
+                                </div>
+                                <div class="kanan mt-2">
+                                    <img src="{{ url_for('static',filename='strawberry.jpg') }}">
+                                    <p>jumlah = ${strawberry}  buah</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">nama: ${nama}</p>
+                                <p class="card-text">no hp: ${nohp}</p>
+                                <p class="card-text">request: ${request}</p>
+                                <p class="card-text">total harga: Rp.${total}</p>
+                                    <div id='pojok'>
+                                        <p class='bg-dark text-white p-1' style='height:max-content;align-self:center;border: 1px solid white; padding: 10px; border-radius: 5px;'>pesanan sudah selesai</p>
+                                        <p><button type="button" style="align-self:center;" onclick='hapus(${num})' class="btn btn-sm btn-danger">hapus pesanan</button></p>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>`;
+                            $("#daftar").append(roww);
+                        }
+
+
+                    }
+                },
+            });
+        });
+        function selesai(num) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/selesai',
+                data: { nomor: num },
+                success: function (response) {
+                    alert(response['pesan']);
+                    window.location.reload();
+
+                }
+            })
+        }
+        function hapus(num) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/hapus',
+                data: { hapus: num },
+                success: function (response) {
+                    alert(response['pesan']);
+                    window.location.reload();
+                }
+            })
+        }
+        function muat() {
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>

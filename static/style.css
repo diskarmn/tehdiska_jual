@@ -1,0 +1,135 @@
+.kanankiri {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: max-content;
+
+}
+
+.kiri,
+.kanan {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.kiri img,
+.kanan img {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+}
+
+.kiri2,
+.kanan2 {
+    padding: 0 30px;
+    width: max-content;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    outline: 1px solid red;
+}
+
+.bungkus {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bungkus img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#muatan {
+    height: max-content;
+    width: max-content;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#pojok {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+
+}
+
+.status {
+    width: 80%;
+    height: max-content;
+    display: flex;
+    margin: 50px auto;
+    background-color: rgb(255, 255, 255);
+    box-shadow: inset 0 0 40px rgb(187, 187, 187);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+
+}
+#mobileh1{
+    text-align: center;
+    padding:30px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .kiri2,
+    .kanan2 {
+        height: 250px;
+    }
+
+    .bungkus {
+        width: 80px;
+        height: 80px;
+    }
+
+    .status {
+        width: 100%;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .kiri2,
+    .kanan2 {
+        padding: 20px 10px;
+        height: 250px;
+
+    }
+
+    #muatan {
+        max-width: 300px;
+    }
+
+    .kiri,
+    .kanan {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+    #muatan p, #muatan div div button{
+        font-size: 100%;
+    }
+    #mobilebut{
+        font-size:80% ;
+        margin:10px;
+    }
+    #mobileh1{
+        font-size: 150%;
+        text-align: center;
+        padding:30px;
+        font-weight: bold;
+    }
+}
